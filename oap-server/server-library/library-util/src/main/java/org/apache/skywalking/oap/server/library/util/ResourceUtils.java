@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +50,8 @@ public class ResourceUtils {
         if (url == null) {
             throw new FileNotFoundException("path not found: " + path);
         }
-        return Arrays.stream(Objects.requireNonNull(new File(url.getPath()).listFiles(), "No files in " + path))
+        String decodePath = URLDecoder.decode(url.getPath(), "UTF-8");
+        return Arrays.stream(Objects.requireNonNull(new File(decodePath).listFiles(), "No files in " + path))
                      .filter(File::isFile).toArray(File[]::new);
     }
 
